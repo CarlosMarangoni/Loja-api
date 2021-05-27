@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,14 +31,14 @@ public class FornecedorService {
 	
 	@Transactional
 	public Fornecedor salvar(Fornecedor fornecedor) {
-		boolean fornecedorExiste = fornecedorRepository.findByNome(fornecedor.getNome()).stream()
-				.anyMatch(fornecedorExistente -> !fornecedorExistente.equals(fornecedor));
-		if (fornecedorExiste) {
-			throw new EntidadeEmUsoException("Já existe um fornecedor cadastrado com este nome.");
+		if (fornecedorJaExiste(fornecedor)) {
+			throw new EntidadeEmUsoException("Já existe um fornecedor cadastrado com este CNPJ.");
 		}
 
 		return fornecedorRepository.save(fornecedor);
 	}
+
+	
 
 	public void excluir(Long fornecedorId) {
 		try {
@@ -45,8 +46,15 @@ public class FornecedorService {
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException("Fornecedor está em uso por outra entidade.");
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntidadeNaoEncontradaException("Fornecedor não encontrado.");
 		}
 
+	}
+	
+	private boolean fornecedorJaExiste(Fornecedor fornecedor) {
+		 return fornecedorRepository.findByCnpj(fornecedor.getCnpj()).stream()
+				.anyMatch(fornecedorExistente -> !fornecedorExistente.equals(fornecedor));		
 	}
 	
 }

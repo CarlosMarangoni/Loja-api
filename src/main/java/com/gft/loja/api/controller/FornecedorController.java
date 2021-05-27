@@ -23,7 +23,7 @@ import com.gft.loja.domain.repository.FornecedorRepository;
 import com.gft.loja.domain.service.FornecedorService;
 
 @RestController
-@RequestMapping("/api/fornecedors")
+@RequestMapping("/api/fornecedores")
 public class FornecedorController {
 
 	@Autowired

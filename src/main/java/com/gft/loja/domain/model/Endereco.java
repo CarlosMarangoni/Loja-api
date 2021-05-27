@@ -1,40 +1,29 @@
 package com.gft.loja.domain.model;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class Endereco {
 
-	@NotBlank
-	@Column(name = "fornecedor_logradouro")
+	@NotNull
 	private String logradouro;
 
-	@NotBlank
-	@Column(name = "fornecedor_numero")
+	@NotNull
 	private String numero;
 
-	@NotBlank
-	@Column(name = "fornecedor_complemento")
 	private String complemento;
 
-	@NotBlank
-	@Column(name = "fornecedor_bairro")
+	@NotNull
 	private String bairro;
 
-	@NotBlank
-	@Column(name = "fornecedor_municipio")
+	@NotNull
 	private String municipio;
 
-	@NotBlank
-	@Column(name = "fornecedor_estado")
+	@NotNull
 	private String estado;
 
-	@NotBlank
-	@Column(name = "fornecedor_cep")
-	@Size(min = 8, max = 8)
+	@NotNull
 	private String cep;
 
 	public String getLogradouro() {
@@ -92,5 +81,6 @@ public class Endereco {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
-
+	
+	
 }

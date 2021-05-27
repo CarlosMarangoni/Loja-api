@@ -30,9 +30,14 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 	private MessageSource messageSource;
 
 	@ExceptionHandler(EntidadeNaoEncontradaException.class)
-	public void handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException ex, WebRequest request) {
-		String mensagemUsuario = "Entidade não encontrada.";
-		System.out.println("   " + mensagemUsuario);
+	public ResponseEntity<Object> handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException ex,
+			WebRequest request) {
+		Erro erro = new Erro();
+		erro.setMensagem("Entidade não encontrada.");
+		erro.setDataHora(LocalDateTime.now());
+		erro.setStatus(HttpStatus.NOT_FOUND.value());
+
+		return handleExceptionInternal(ex, erro, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 
 	}
 
@@ -59,38 +64,40 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		
+
 		List<Erro.Campo> campos = new ArrayList<>();
 		String campo = null;
 		Throwable cause = ex.getCause();
 
 		if (cause instanceof MismatchedInputException) {
-			MismatchedInputException mie = (MismatchedInputException) cause; //Capturando duas excessões dentro de HttpMessageNotReadableException para buscar o nome do campo que ocasionou o erro
+			MismatchedInputException mie = (MismatchedInputException) cause; // Capturando duas excessões dentro de
+																				// HttpMessageNotReadableException para
+																				// buscar o nome do campo que ocasionou
+																				// o erro
 			if (mie.getPath() != null && mie.getPath().size() > 0) {
 				campo = mie.getPath().get(0).getFieldName();
 			}
 		}
-		
-	campos.add(new Erro.Campo(campo,"Tipo de entrada inválido"));
-		
+
+		campos.add(new Erro.Campo(campo, "Tipo de entrada inválido"));
+
 		Erro erro = new Erro();
 		erro.setDataHora(LocalDateTime.now());
 		erro.setStatus(status.value());
 		erro.setMensagem("Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente");
 		erro.setCampos(campos);
-		
 
 		return handleExceptionInternal(ex, erro, headers, status, request);
 	}
 
 	@ExceptionHandler(EntidadeEmUsoException.class)
-	protected ResponseEntity<Object> handleEntidadeEmUsoException(EntidadeEmUsoException ex,WebRequest request) {
-		
+	protected ResponseEntity<Object> handleEntidadeEmUsoException(EntidadeEmUsoException ex, WebRequest request) {
+
 		Erro erro = new Erro();
 		erro.setDataHora(LocalDateTime.now());
-		erro.setStatus(409);
+		erro.setStatus(HttpStatus.CONFLICT.value());
 		erro.setMensagem(ex.getMessage());
 		return handleExceptionInternal(ex, erro, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
-	
+
 }

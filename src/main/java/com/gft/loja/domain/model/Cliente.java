@@ -6,32 +6,29 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
-public class Fornecedor {
+public class Cliente {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@CNPJ
-	@NotNull
-	private String cnpj;
-
-	@Size(min = 3, max = 60)
+	
+	@CPF
+	private String cpf;
+	
 	@NotNull
 	private String nome;
-
+	
+	@NotNull
 	private String telefone;
-
-	@Email
+	
 	@NotNull
 	private String email;
-
+	
 	@Valid
 	@Embedded
 	private Endereco endereco;
@@ -44,12 +41,12 @@ public class Fornecedor {
 		this.id = id;
 	}
 
-	public String getCnpj() {
-		return cnpj;
+	public String getCpf() {
+		return cpf;
 	}
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public String getNome() {
@@ -84,5 +81,4 @@ public class Fornecedor {
 		this.endereco = endereco;
 	}
 	
-
 }

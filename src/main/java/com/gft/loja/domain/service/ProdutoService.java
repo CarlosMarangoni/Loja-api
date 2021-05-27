@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gft.loja.domain.exception.EntidadeEmUsoException;
 import com.gft.loja.domain.exception.EntidadeNaoEncontradaException;
+import com.gft.loja.domain.model.Estoque;
 import com.gft.loja.domain.model.Produto;
+import com.gft.loja.domain.repository.EstoqueRepository;
 import com.gft.loja.domain.repository.ProdutoRepository;
 
 @Service
@@ -17,6 +20,9 @@ public class ProdutoService {
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
+
+	@Autowired
+	private EstoqueRepository estoqueRepository;
 
 	public List<Produto> listar() {
 		return produtoRepository.findAll();
@@ -32,11 +38,18 @@ public class ProdutoService {
 	public Produto salvar(Produto produto) {
 		boolean produtoExiste = produtoRepository.findByDescricao(produto.getDescricao()).stream()
 				.anyMatch(produtoExistente -> !produtoExistente.equals(produto));
+
 		if (produtoExiste) {
 			throw new EntidadeEmUsoException("Já existe um produto cadastrado com esta descrição.");
 		}
 
-		return produtoRepository.save(produto);
+		Produto produtoSalvo = produtoRepository.save(produto);
+		Estoque estoque = new Estoque(produtoSalvo.getId(), produto, 0, null); // No momento que cria o
+																							// produto, cria um estoque
+																							// com quantidade e valor 0
+		estoqueRepository.save(estoque);
+
+		return produtoSalvo;
 	}
 
 	public void excluir(Long produtoId) {
@@ -45,6 +58,8 @@ public class ProdutoService {
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException("Produto está em uso por outra entidade.");
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntidadeNaoEncontradaException("Produto não encontrado.");
 		}
 
 	}
