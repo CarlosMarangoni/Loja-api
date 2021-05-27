@@ -1,8 +1,8 @@
 package com.gft.loja.domain.model;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -30,7 +30,7 @@ public class Compra {
 	
 	@Valid
 	@OneToMany(mappedBy = "itensCompraPK.compra",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	private List<ItensCompra> itens;
+	private List<ItensCompra> itens = new LinkedList<>();
 
 	public Long getId() {
 		return id;

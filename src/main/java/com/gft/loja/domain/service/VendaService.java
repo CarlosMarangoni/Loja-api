@@ -1,6 +1,7 @@
 package com.gft.loja.domain.service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,19 +27,24 @@ public class VendaService {
 
 	public Venda buscar(Long id) {
 		return vendaRepository.findById(id)
-				.orElseThrow(() -> new EntidadeNaoEncontradaException("Produto não encontrado."));
+				.orElseThrow(() -> new EntidadeNaoEncontradaException("Venda não encontrada."));
 
 	}
 
 	@Transactional
 	public Venda salvar(Venda venda) {
+		AtomicInteger atomicSum = new AtomicInteger(0);
 		venda.getItensVenda().forEach(c ->
 
 		estoqueRepository.findById(c.getItensVendaPK().getProduto().getId()).get()
 				.subtraiQuantidadeProduto(c.getQuantidade()));
 
 		Venda vendaSalva = vendaRepository.save(venda);
-		vendaSalva.getItensVenda().forEach(c -> c.getItensVendaPK().setVenda(vendaSalva));
+		vendaSalva.getItensVenda().forEach(c -> {
+			
+		c.getItensVendaPK().setVenda(vendaSalva);
+		c.setItem(atomicSum.incrementAndGet());});
+		
 		return vendaSalva;
 	}
 

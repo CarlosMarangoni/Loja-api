@@ -1,5 +1,6 @@
 package com.gft.loja.domain.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.gft.loja.domain.model.enumeration.StatusVenda;
 
@@ -25,6 +28,9 @@ public class Venda {
 	
 	@ManyToOne
 	private Cliente cliente;
+	
+	@Temporal(TemporalType.DATE)
+    private Date dataVenda;
 	
 	@OneToMany(mappedBy = "itensVendaPK.venda",cascade = CascadeType.ALL)
 	private List<ItensVenda> itensVenda;
@@ -51,6 +57,16 @@ public class Venda {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+	
+	
+
+	public Date getDataVenda() {
+		return dataVenda;
+	}
+
+	public void setDataVenda(Date dataVenda) {
+		this.dataVenda = dataVenda;
 	}
 
 	public List<ItensVenda> getItensVenda() {

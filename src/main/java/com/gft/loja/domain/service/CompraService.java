@@ -32,15 +32,18 @@ public class CompraService {
 
 	@Transactional
 	public Compra salvar(Compra compra) {
-		AtomicInteger atomicSum = new AtomicInteger();
+		AtomicInteger atomicSum = new AtomicInteger(0);
 		compra.getItens().forEach(c ->
 
 		estoqueRepository.findById(c.getItensCompraPK().getProduto().getId()).get()
 				.somaQuantidadeProduto(c.getQuantidade()));
 
 		Compra compraSalva = compraRepository.save(compra);
-		compraSalva.getItens().forEach(c -> c.getItensCompraPK().setCompra(compraSalva));
-		compraSalva.getItens().forEach(c -> c.setItem(atomicSum.addAndGet(1)));
+		compraSalva.getItens().forEach(c -> {
+		
+		c.getItensCompraPK().setCompra(compraSalva);
+		c.setItem(atomicSum.incrementAndGet());});
+		
 		return compraSalva;
 	}
 
