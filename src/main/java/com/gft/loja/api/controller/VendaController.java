@@ -14,32 +14,38 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gft.loja.domain.model.Compra;
-import com.gft.loja.domain.service.CompraService;
+import com.gft.loja.domain.model.Venda;
+import com.gft.loja.domain.repository.VendaRepository;
+import com.gft.loja.domain.service.VendaService;
 
 @RestController
-@RequestMapping("/api/compras")
-public class CompraController {
-
+@RequestMapping("/api/vendas")
+public class VendaController {
 
 	@Autowired
-	private CompraService compraService;
+	private VendaRepository vendaRepository;
+	
+	@Autowired
+	private VendaService vendaService;
 	
 	@GetMapping
-	public List<Compra> listar(){
-		return compraService.listar();
+	public List<Venda> listar(){
+		return vendaService.listar();
 	}
 	
-	@GetMapping("/{compraId}")
-	public Compra buscar(@PathVariable Long compraId) {
-		Compra compra = compraService.buscar(compraId);
-		return compra;
+	@GetMapping("/{vendaId}")
+	public Venda buscar(@PathVariable Long vendaId) {
+		Venda venda = vendaService.buscar(vendaId);
+		return venda;
 	}
 	
+
 	@PostMapping
-	public ResponseEntity<?> adicionar(@Valid @RequestBody Compra compra){
-		Compra compraSalva = compraService.salvar(compra);
+	public ResponseEntity<?> adicionar(@Valid @RequestBody Venda venda){
+		Venda vendaSalva = vendaService.salvar(venda);
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(compraSalva);
+		return ResponseEntity.status(HttpStatus.CREATED).body(vendaSalva);
 	}
+	
+	
 }

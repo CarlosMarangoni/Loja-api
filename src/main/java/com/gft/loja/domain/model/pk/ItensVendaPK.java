@@ -7,21 +7,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.gft.loja.domain.model.Compra;
 import com.gft.loja.domain.model.Produto;
+import com.gft.loja.domain.model.Venda;
 
 @Embeddable
-public class ItensCompraPK implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
+public class ItensVendaPK implements Serializable{
+	
 	@ManyToOne
 	@JoinColumn(name = "produto_id")
 	private Produto produto;
-
-	@JsonIgnore
+	
 	@ManyToOne
-	private Compra compra;
+	@JsonIgnore
+	private Venda venda;
 
 	public Produto getProduto() {
 		return produto;
@@ -31,12 +29,13 @@ public class ItensCompraPK implements Serializable {
 		this.produto = produto;
 	}
 
-	public Compra getCompra() {
-		return compra;
+	public Venda getVenda() {
+		return venda;
 	}
 
-	public void setCompra(Compra compra) {
-		this.compra = compra;
+	public void setVenda(Venda venda) {
+		this.venda = venda;
 	}
-
+	
+	
 }

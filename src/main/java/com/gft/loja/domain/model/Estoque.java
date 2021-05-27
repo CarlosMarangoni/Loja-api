@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.NumberFormat;
+
 @Entity
 public class Estoque {
 
@@ -18,7 +20,7 @@ public class Estoque {
 	@OneToOne
 	private Produto produto;
 
-	private Integer quantidade;
+	private double quantidade;
 	
 	private BigDecimal valorVenda;
 
@@ -50,11 +52,11 @@ public class Estoque {
 		this.produto = produto;
 	}
 
-	public Integer getQuantidade() {
+	public double getQuantidade() {
 		return quantidade;
 	}
 
-	public void setQuantidade(Integer quantidade) {
+	public void setQuantidade(double quantidade) {
 		this.quantidade = quantidade;
 	}
 
@@ -64,6 +66,14 @@ public class Estoque {
 
 	public void setValorVenda(BigDecimal valorVenda) {
 		this.valorVenda = valorVenda;
+	}
+	
+	public void somaQuantidadeProduto(double quantidadeSoma ) {
+		this.quantidade = this.quantidade + quantidadeSoma;
+	}
+	
+	public void subtraiQuantidadeProduto(double quantidadeSubtracao) {
+		this.quantidade = this.quantidade - quantidadeSubtracao;
 	}
 
 }
