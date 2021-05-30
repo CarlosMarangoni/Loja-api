@@ -3,10 +3,12 @@ package com.gft.loja.domain.exceptionhandler;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.gft.loja.domain.exception.EntidadeEmUsoException;
-import com.gft.loja.domain.exception.EntidadeNaoEncontradaException;
+import com.gft.loja.domain.exception.ItemBodyViolationException;
 
 @ControllerAdvice
 public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
@@ -29,8 +31,8 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 	@Autowired
 	private MessageSource messageSource;
 
-	@ExceptionHandler(EntidadeNaoEncontradaException.class)
-	public ResponseEntity<Object> handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException ex,
+	@ExceptionHandler(NoSuchElementException.class)
+	public ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException ex,
 			WebRequest request) {
 		Erro erro = new Erro();
 		erro.setMensagem("Entidade não encontrada.");
@@ -40,6 +42,19 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, erro, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 
 	}
+	
+	@ExceptionHandler(ItemBodyViolationException.class)
+	public ResponseEntity<Object> handleItemBodyViolationException(ItemBodyViolationException ex,
+			WebRequest request) {
+		Erro erro = new Erro();
+		erro.setMensagem(ex.getMessage());
+		erro.setDataHora(LocalDateTime.now());
+		erro.setStatus(HttpStatus.BAD_REQUEST.value());
+
+		return handleExceptionInternal(ex, erro, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+
+	}
+
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -61,6 +76,9 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, erro, headers, status, request);
 	}
 
+
+	
+	
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -89,6 +107,7 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return handleExceptionInternal(ex, erro, headers, status, request);
 	}
+	
 
 	@ExceptionHandler(EntidadeEmUsoException.class)
 	protected ResponseEntity<Object> handleEntidadeEmUsoException(EntidadeEmUsoException ex, WebRequest request) {
@@ -99,5 +118,20 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 		erro.setMensagem(ex.getMessage());
 		return handleExceptionInternal(ex, erro, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
+	
+	
+	
+	
+//	@ExceptionHandler(IllegalArgumentException.class)
+//	public ResponseEntity<Object> handleInvalidDataAccessApiUsageException(IllegalArgumentException ex,
+//			WebRequest request) {
+//		Erro erro = new Erro();
+//		erro.setMensagem(ex.getMessage());
+//		erro.setDataHora(LocalDateTime.now());
+//		erro.setStatus(HttpStatus.BAD_REQUEST.value());
+//
+//		return handleExceptionInternal(ex, erro, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+//
+//	}
 
 }

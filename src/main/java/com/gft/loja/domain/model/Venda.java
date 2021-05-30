@@ -1,5 +1,6 @@
 package com.gft.loja.domain.model;
 
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gft.loja.domain.model.enumeration.StatusVenda;
 
 @Entity
@@ -29,9 +34,9 @@ public class Venda {
 	@ManyToOne
 	private Cliente cliente;
 	
-	@Temporal(TemporalType.DATE)
-    private Date dataVenda;
+    private OffsetDateTime dataVenda;
 	
+	@NotEmpty
 	@OneToMany(mappedBy = "itensVendaPK.venda",cascade = CascadeType.ALL)
 	private List<ItensVenda> itensVenda;
 
@@ -58,14 +63,12 @@ public class Venda {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
-	
 
-	public Date getDataVenda() {
+	public OffsetDateTime getDataVenda() {
 		return dataVenda;
 	}
 
-	public void setDataVenda(Date dataVenda) {
+	public void setDataVenda(OffsetDateTime dataVenda) {
 		this.dataVenda = dataVenda;
 	}
 

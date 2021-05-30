@@ -3,13 +3,11 @@ package com.gft.loja.domain.model;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Min;
 
-import org.springframework.format.annotation.NumberFormat;
+import com.gft.loja.domain.exception.ItemBodyViolationException;
 
 @Entity
 public class Estoque {
@@ -20,21 +18,20 @@ public class Estoque {
 	@OneToOne
 	private Produto produto;
 
+	@Min(0)
 	private double quantidade;
-	
+
 	private BigDecimal valorVenda;
 
 	public Estoque() {
 	}
 
-	
 	public Estoque(Long id, Produto produto, Integer quantidade, BigDecimal valorVenda) {
 		this.id = id;
 		this.produto = produto;
 		this.quantidade = quantidade;
 		this.valorVenda = valorVenda;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -67,13 +64,22 @@ public class Estoque {
 	public void setValorVenda(BigDecimal valorVenda) {
 		this.valorVenda = valorVenda;
 	}
-	
-	public void somaQuantidadeProduto(double quantidadeSoma ) {
+
+	public void somaQuantidadeProduto(double quantidadeSoma) {
 		this.quantidade = this.quantidade + quantidadeSoma;
 	}
-	
+
 	public void subtraiQuantidadeProduto(double quantidadeSubtracao) {
-		this.quantidade = this.quantidade - quantidadeSubtracao;
+		if (this.quantidade < quantidadeSubtracao) {
+			throw new ItemBodyViolationException(
+					"Estoque do produto " + this.getId() + " - " + this.getProduto().getDescricao()
+							+ " não disponível. Faça o preenchimento correto e tente novamente");
+		}
+		this.quantidade -= quantidadeSubtracao;
+	}
+	
+	public BigDecimal calculaVenda(double quantidade) {
+		return this.valorVenda.multiply(new BigDecimal(quantidade));
 	}
 
 }

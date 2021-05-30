@@ -1,5 +1,6 @@
 package com.gft.loja.domain.model;
 
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,8 +23,7 @@ public class Compra {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Temporal(TemporalType.DATE)
-    private Date dataCompra;
+    private OffsetDateTime dataCompra;
 	
 	@ManyToOne
 	private Fornecedor fornecedor;	
@@ -40,11 +40,11 @@ public class Compra {
 		this.id = id;
 	}
 
-	public Date getDataCompra() {
+	public OffsetDateTime getDataCompra() {
 		return dataCompra;
 	}
 
-	public void setDataCompra(Date dataCompra) {
+	public void setDataCompra(OffsetDateTime dataCompra) {
 		this.dataCompra = dataCompra;
 	}
 

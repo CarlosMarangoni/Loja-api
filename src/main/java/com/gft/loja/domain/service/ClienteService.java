@@ -1,6 +1,7 @@
 package com.gft.loja.domain.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gft.loja.domain.exception.EntidadeEmUsoException;
-import com.gft.loja.domain.exception.EntidadeNaoEncontradaException;
 import com.gft.loja.domain.model.Cliente;
 import com.gft.loja.domain.repository.ClienteRepository;
 
@@ -24,8 +24,7 @@ public class ClienteService {
 	}
 
 	public Cliente buscar(Long id) {
-		return clienteRepository.findById(id)
-				.orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado."));
+		return clienteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Cliente não encontrado. Faça o preenchimento correto e tente novamente"));
 
 	}
 
@@ -45,7 +44,7 @@ public class ClienteService {
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException("Cliente está em uso por outra entidade.");
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException("Cliente não encontrado.");
+			throw new NoSuchElementException();
 		}
 
 	}
