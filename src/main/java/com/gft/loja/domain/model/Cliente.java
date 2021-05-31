@@ -1,5 +1,7 @@
 package com.gft.loja.domain.model;
 
+import java.util.List;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,34 +13,31 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
-public class Cliente {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
+public class Cliente extends Usuario {
+
+
+	private static final long serialVersionUID = 1L;
+
 	@CPF
 	private String cpf;
-	
-	@NotNull
-	private String nome;
-	
+
 	@NotNull
 	private String telefone;
-	
-	@NotNull
-	private String email;
-	
+
 	@Valid
 	@Embedded
 	private Endereco endereco;
 
-	public Long getId() {
-		return id;
+
+	public Cliente() {
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public Cliente(@NotNull String email, @NotNull String nome, @NotNull String senha, List<Perfil> perfis,
+			@CPF String cpf, @NotNull String telefone, @Valid Endereco endereco) {
+		super(email, nome, senha, perfis);
+		this.cpf = cpf;
+		this.telefone = telefone;
+		this.endereco = endereco;
 	}
 
 	public String getCpf() {
@@ -49,28 +48,12 @@ public class Cliente {
 		this.cpf = cpf;
 	}
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	public String getTelefone() {
 		return telefone;
 	}
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public Endereco getEndereco() {
@@ -80,5 +63,7 @@ public class Cliente {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
+
 	
+
 }

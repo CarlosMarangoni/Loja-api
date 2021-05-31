@@ -6,14 +6,16 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gft.loja.api.mapper.CompraMapper;
+import com.gft.loja.api.model.CompraModel;
 import com.gft.loja.domain.model.Compra;
 import com.gft.loja.domain.service.CompraService;
 
@@ -25,21 +27,25 @@ public class CompraController {
 	@Autowired
 	private CompraService compraService;
 	
+	@Autowired
+	private CompraMapper compraMapper;
+	
 	@GetMapping
-	public List<Compra> listar(){
-		return compraService.listar();
+	public List<CompraModel> listar(){
+		return compraMapper.toCollectionModel(compraService.listar());
 	}
 	
 	@GetMapping("/{compraId}")
-	public Compra buscar(@PathVariable Long compraId) {
-		Compra compra = compraService.buscar(compraId);
-		return compra;
+	public CompraModel buscar(@PathVariable Long compraId) {
+		return compraMapper.toModel(compraService.buscar(compraId));
+		
+		
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> adicionar(@Valid @RequestBody Compra compra){
-		Compra compraSalva = compraService.salvar(compra);
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public CompraModel adicionar(@Valid @RequestBody Compra compra){
+		return compraMapper.toModel(compraService.salvar(compra));
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(compraSalva);
 	}
 }

@@ -3,6 +3,7 @@ package com.gft.loja.domain.service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -50,6 +51,8 @@ public class ProdutoService {
 
 		return produtoSalvo;
 	}
+	
+	
 
 	public void excluir(Long produtoId) {
 		try {
@@ -61,5 +64,12 @@ public class ProdutoService {
 			throw new NoSuchElementException();
 		}
 
+	}
+
+	public Produto atualizar(Long produtoId,Produto produto) {
+		Produto produtoBuscado = buscar(produtoId);
+		BeanUtils.copyProperties(produto, produtoBuscado,"id");
+		salvar(produtoBuscado);
+		return produtoBuscado;
 	}
 }

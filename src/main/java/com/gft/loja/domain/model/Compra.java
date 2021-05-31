@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Compra {
@@ -29,6 +30,7 @@ public class Compra {
 	private Fornecedor fornecedor;	
 	
 	@Valid
+	@NotEmpty
 	@OneToMany(mappedBy = "itensCompraPK.compra",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<ItensCompra> itens = new LinkedList<>();
 

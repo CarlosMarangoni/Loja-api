@@ -6,7 +6,8 @@ INSERT INTO fornecedor (cnpj,email,nome,telefone,bairro,cep,municipio,complement
 INSERT INTO estoque (id,produto_id,quantidade,valor_venda) VALUES (1,1,10,10);
 INSERT INTO estoque (id,produto_id,quantidade,valor_venda) VALUES (2,2,10,20);
 INSERT INTO estoque (id,produto_id,quantidade,valor_venda) VALUES (3,3,10,30);
-INSERT INTO cliente (cpf,email,nome,telefone,bairro,cep,municipio,complemento,logradouro,estado,numero) VALUES ("48699576803","carlos.marangoni1@gmail.com","Carlos Marangoni", "11997516492","Nova Mairinque","18120000","Mairinque","Casa","Rua das flores","SP","363");
-INSERT INTO cliente (cpf,email,nome,telefone,bairro,cep,municipio,complemento,logradouro,estado,numero) VALUES ("35919484896","marangoni.darlan1@gmail.com","Darlan Marangoni", "11997515666","Reneville","18120000","Reneville","Casa","Av. Reneville","SP","159");
-
+INSERT INTO perfil (descricao) VALUES ('LOJA');
+INSERT INTO perfil (descricao) VALUES ('CLIENTE');
+INSERT INTO usuario (email,nome,senha) VALUES ("marangoni.darlan1@gmail.com","Darlan Marangoni","1234");
+INSERT INTO usuario_perfis (usuario_id,perfis_id) VALUES (1,1);
 

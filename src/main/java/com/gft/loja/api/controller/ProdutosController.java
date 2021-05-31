@@ -1,8 +1,6 @@
 package com.gft.loja.api.controller;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -20,44 +18,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gft.loja.api.mapper.ProdutoMapper;
+import com.gft.loja.api.model.ProdutoModel;
 import com.gft.loja.domain.model.Produto;
-import com.gft.loja.domain.repository.ProdutoRepository;
 import com.gft.loja.domain.service.ProdutoService;
 
 @RestController
 @RequestMapping("/api/produtos")
 public class ProdutosController {
 
-	@Autowired
-	private ProdutoRepository produtoRepository;
+	
 	
 	@Autowired
 	private ProdutoService produtoService;
 	
+	@Autowired
+	private ProdutoMapper produtoMapper;
+	
 	@GetMapping
-	public List<Produto> listar(){
-		return produtoService.listar();
+	public List<ProdutoModel> listar(){
+		return produtoMapper.toCollectionModel(produtoService.listar());
 	}
 	
 	@GetMapping("/{produtoId}")
-	public Produto buscar(@PathVariable Long produtoId) {
-		Produto produto = produtoService.buscar(produtoId);
-		return produto;
+	public ProdutoModel buscar(@PathVariable Long produtoId) {
+		return produtoMapper.toModel(produtoService.buscar(produtoId));
+		 
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> adicionar(@Valid @RequestBody Produto produto){
-		Produto produtoSalvo = produtoService.salvar(produto);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalvo);
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public ProdutoModel adicionar(@Valid @RequestBody Produto produto){
+		return produtoMapper.toModel(produtoService.salvar(produto));
 	}
 	
 	@PutMapping("/{produtoId}")
-	public ResponseEntity<?> editar (@Valid @RequestBody Produto produto,@PathVariable Long produtoId){
-		Produto produtoBuscado = produtoService.buscar(produtoId);
-		BeanUtils.copyProperties(produto, produtoBuscado,"id");
-		produtoService.salvar(produtoBuscado);
-		return ResponseEntity.ok(produtoBuscado);
+	public ProdutoModel editar (@Valid @RequestBody Produto produto,@PathVariable Long produtoId){
+		return produtoMapper.toModel(produtoService.atualizar(produtoId,produto));
+		
 	}
 	
 	@DeleteMapping("/{produtoId}")

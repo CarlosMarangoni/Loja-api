@@ -49,6 +49,7 @@ public class CompraService {
 				
 				
 				Estoque estoque = estoqueService.buscar(c.getItensCompraPK().getProduto().getId());
+				c.getItensCompraPK().setProduto(estoque.getProduto());
 				estoque.somaQuantidadeProduto(c.getQuantidade());
 				c.getItensCompraPK().setCompra(compra);
 				c.setItem(atomicSum.incrementAndGet());

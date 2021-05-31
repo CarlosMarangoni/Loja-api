@@ -6,21 +6,18 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gft.loja.domain.exception.ItemBodyViolationException;
-import com.gft.loja.domain.model.ItensVenda;
+import com.gft.loja.api.mapper.VendaMapper;
+import com.gft.loja.api.model.VendaModel;
 import com.gft.loja.domain.model.Venda;
-import com.gft.loja.domain.model.enumeration.StatusVenda;
-import com.gft.loja.domain.repository.VendaRepository;
 import com.gft.loja.domain.service.VendaService;
 
 @RestController
@@ -28,33 +25,34 @@ import com.gft.loja.domain.service.VendaService;
 public class VendaController {
 
 	@Autowired
-	private VendaRepository vendaRepository;
-
-	@Autowired
 	private VendaService vendaService;
 
+	@Autowired
+	private VendaMapper vendaMapper;
+
 	@GetMapping
-	public List<Venda> listar() {
-		return vendaService.listar();
+	public List<VendaModel> listar() {
+		return vendaMapper.toCollectionModel(vendaService.listar());
 	}
 
 	@GetMapping("/{vendaId}")
-	public Venda buscar(@PathVariable Long vendaId) {
-		Venda venda = vendaService.buscar(vendaId);
-		return venda;
+	public VendaModel buscar(@PathVariable Long vendaId) {
+
+		return vendaMapper.toModel(vendaService.buscar(vendaId));
+
 	}
 
 	@PostMapping
-	public ResponseEntity<?> adicionar(@Valid @RequestBody Venda venda) {
-		Venda vendaSalva = vendaService.salvar(venda);
-	
-		return ResponseEntity.status(HttpStatus.CREATED).body(vendaSalva);
+	public VendaModel adicionar(@Valid @RequestBody Venda venda) {
+		return vendaMapper.toModel(vendaService.salvar(venda));
+
 	}
 
 	@PutMapping("/{vendaId}/receber")
-	public Venda atualizarStatus(@PathVariable Long vendaId) {
-		Venda vendaBuscada = vendaService.atualizarStatusEntregaRecebido(vendaId);
-		return vendaBuscada;
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public VendaModel atualizarStatus(@PathVariable Long vendaId) {
+		return vendaMapper.toModel(vendaService.atualizarStatusEntregaRecebido(vendaId));
+		
 	}
 
 }

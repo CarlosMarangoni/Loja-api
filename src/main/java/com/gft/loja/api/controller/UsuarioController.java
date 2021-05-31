@@ -14,41 +14,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gft.loja.api.mapper.ClienteMapper;
-import com.gft.loja.api.model.ClienteModel;
-import com.gft.loja.domain.model.Cliente;
 import com.gft.loja.domain.model.Usuario;
-import com.gft.loja.domain.service.ClienteService;
 import com.gft.loja.domain.service.UsuarioService;
 
 @RestController
-@RequestMapping("/api/clientes")
-public class ClienteController {
-
-	@Autowired
-	private ClienteService clienteService;
+@RequestMapping("/api/usuarios")
+public class UsuarioController {
 
 	@Autowired
 	private UsuarioService usuarioService;
-	
-	@Autowired
-	private ClienteMapper clienteMapper;
 
 	@GetMapping
-	public List<ClienteModel> listarClientes() {
-		return clienteMapper.toCollectionModel(clienteService.listar());
+	public List<Usuario> listar() {
+		return usuarioService.listar();
 	}
 
-	@GetMapping("/{clienteId}")
-	public ClienteModel buscar(@PathVariable Long clienteId) {
-		return clienteMapper.toModel(clienteService.buscar(clienteId));
-		
+	@GetMapping("/{usuarioId}")
+	public Usuario buscar(@PathVariable Long usuarioId) {
+		Usuario usuario = usuarioService.buscar(usuarioId);
+		return usuario;
 	}
 
 	@PostMapping
-	public ClienteModel adicionarCliente(@Valid @RequestBody Cliente cliente) {
-		return clienteMapper.toModel(usuarioService.salvarCliente(cliente));
+	public ResponseEntity<?> adicionar(@Valid @RequestBody Usuario usuario) {
+		Usuario usuarioSalva = usuarioService.salvarUsuario(usuario);
 
+		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalva);
 	}
 
 }

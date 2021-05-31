@@ -26,6 +26,7 @@ public class Fornecedor {
 	@NotNull
 	private String nome;
 
+	@Size(max = 30)
 	private String telefone;
 
 	@Email

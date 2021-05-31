@@ -24,14 +24,15 @@ public class ClienteService {
 	}
 
 	public Cliente buscar(Long id) {
-		return clienteRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Cliente não encontrado. Faça o preenchimento correto e tente novamente"));
+		return clienteRepository.findById(id).orElseThrow(() -> new NoSuchElementException(
+				"Cliente não encontrado. Faça o preenchimento correto e tente novamente"));
 
 	}
 
 	@Transactional
 	public Cliente salvar(Cliente cliente) {
 		if (clienteJaExiste(cliente)) {
-			throw new EntidadeEmUsoException("Já existe um cliente cadastrado com este CPF.");
+			throw new EntidadeEmUsoException("Já existe um cliente cadastrado com este CNPJ.");
 		}
 
 		return clienteRepository.save(cliente);

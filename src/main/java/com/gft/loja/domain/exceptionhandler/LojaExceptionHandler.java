@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -32,8 +36,7 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 	private MessageSource messageSource;
 
 	@ExceptionHandler(NoSuchElementException.class)
-	public ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException ex,
-			WebRequest request) {
+	public ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException ex, WebRequest request) {
 		Erro erro = new Erro();
 		erro.setMensagem("Entidade não encontrada.");
 		erro.setDataHora(LocalDateTime.now());
@@ -42,10 +45,9 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, erro, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 
 	}
-	
+
 	@ExceptionHandler(ItemBodyViolationException.class)
-	public ResponseEntity<Object> handleItemBodyViolationException(ItemBodyViolationException ex,
-			WebRequest request) {
+	public ResponseEntity<Object> handleItemBodyViolationException(ItemBodyViolationException ex, WebRequest request) {
 		Erro erro = new Erro();
 		erro.setMensagem(ex.getMessage());
 		erro.setDataHora(LocalDateTime.now());
@@ -54,7 +56,6 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, erro, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 
 	}
-
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -76,9 +77,6 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, erro, headers, status, request);
 	}
 
-
-	
-	
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -107,7 +105,6 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return handleExceptionInternal(ex, erro, headers, status, request);
 	}
-	
 
 	@ExceptionHandler(EntidadeEmUsoException.class)
 	protected ResponseEntity<Object> handleEntidadeEmUsoException(EntidadeEmUsoException ex, WebRequest request) {
@@ -118,20 +115,5 @@ public class LojaExceptionHandler extends ResponseEntityExceptionHandler {
 		erro.setMensagem(ex.getMessage());
 		return handleExceptionInternal(ex, erro, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
-	
-	
-	
-	
-//	@ExceptionHandler(IllegalArgumentException.class)
-//	public ResponseEntity<Object> handleInvalidDataAccessApiUsageException(IllegalArgumentException ex,
-//			WebRequest request) {
-//		Erro erro = new Erro();
-//		erro.setMensagem(ex.getMessage());
-//		erro.setDataHora(LocalDateTime.now());
-//		erro.setStatus(HttpStatus.BAD_REQUEST.value());
-//
-//		return handleExceptionInternal(ex, erro, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-//
-//	}
 
 }
