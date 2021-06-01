@@ -1,16 +1,12 @@
 package com.gft.loja.domain.service;
 
-import java.security.Principal;
 import java.time.OffsetDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +28,9 @@ public class VendaService {
 
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private SenderMailService senderMailService;
 
 	
 	
@@ -86,7 +85,8 @@ public class VendaService {
 			throw new ItemBodyViolationException(
 					e.getMessage());
 		}
-
+		
+		senderMailService.enviar(venda);
 		return vendaRepository.save(venda);
 	}
 

@@ -1,6 +1,5 @@
 package com.gft.loja.domain.model;
 
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -42,7 +41,6 @@ public class Venda {
 	@OneToMany(mappedBy = "itensVendaPK.venda", cascade = CascadeType.ALL)
 	private List<ItensVenda> itensVenda;
 	
-	private BigDecimal totalVenda;
 
 	public Long getId() {
 		return id;
@@ -86,14 +84,6 @@ public class Venda {
 		this.itensVenda = itensVenda;
 	}
 
-	public BigDecimal getTotalVenda() {
-		return totalVenda;
-	}
-
-	public void setTotalVenda(BigDecimal totalVenda) {
-		this.totalVenda = totalVenda;
-	}
-	
 	
 
 }
