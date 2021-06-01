@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gft.loja.api.mapper.VendaMapper;
 import com.gft.loja.api.model.VendaModel;
 import com.gft.loja.domain.model.Venda;
+import com.gft.loja.domain.model.enumeration.StatusVenda;
 import com.gft.loja.domain.service.VendaService;
 
 @RestController
@@ -34,6 +35,17 @@ public class VendaController {
 	public List<VendaModel> listar() {
 		return vendaMapper.toCollectionModel(vendaService.listar());
 	}
+	
+	@GetMapping("/cliente/{clienteId}")
+	public List<VendaModel> listar(@PathVariable Long clienteId) {
+		return vendaMapper.toCollectionModel(vendaService.listarComFiltroCliente(clienteId));
+	}
+	
+	@GetMapping("/status/{statusVenda}")
+	public List<VendaModel> listar(@PathVariable String statusVenda) {
+		return vendaMapper.toCollectionModel(vendaService.listarComFiltroStatusVenda(statusVenda));
+	}
+
 
 	@GetMapping("/{vendaId}")
 	public VendaModel buscar(@PathVariable Long vendaId) {
@@ -49,7 +61,7 @@ public class VendaController {
 	}
 
 	@PutMapping("/{vendaId}/receber")
-	@ResponseStatus(code = HttpStatus.CREATED)
+	@ResponseStatus(code = HttpStatus.OK)
 	public VendaModel atualizarStatus(@PathVariable Long vendaId) {
 		return vendaMapper.toModel(vendaService.atualizarStatusEntregaRecebido(vendaId));
 		

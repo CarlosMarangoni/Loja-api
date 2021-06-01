@@ -23,29 +23,31 @@ import com.gft.loja.domain.service.CompraService;
 @RequestMapping("/api/compras")
 public class CompraController {
 
-
 	@Autowired
 	private CompraService compraService;
-	
+
 	@Autowired
 	private CompraMapper compraMapper;
-	
+
 	@GetMapping
-	public List<CompraModel> listar(){
+	public List<CompraModel> listar() {
 		return compraMapper.toCollectionModel(compraService.listar());
 	}
-	
+
+	@GetMapping("/fornecedor/{fornecedorId}")
+	public List<CompraModel> listar(@PathVariable Long fornecedorId) {
+		return compraMapper.toCollectionModel(compraService.listarComFitroCodFornecedor(fornecedorId));
+	}
+
 	@GetMapping("/{compraId}")
 	public CompraModel buscar(@PathVariable Long compraId) {
 		return compraMapper.toModel(compraService.buscar(compraId));
-		
-		
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public CompraModel adicionar(@Valid @RequestBody Compra compra){
+	public CompraModel adicionar(@Valid @RequestBody Compra compra) {
 		return compraMapper.toModel(compraService.salvar(compra));
-		
+
 	}
 }

@@ -4,10 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gft.loja.api.mapper.EstoqueMapper;
 import com.gft.loja.api.mapper.ProdutoMapper;
+import com.gft.loja.api.model.EstoqueResumoModel;
 import com.gft.loja.api.model.ProdutoModel;
 import com.gft.loja.domain.model.Produto;
 import com.gft.loja.domain.service.ProdutoService;
@@ -26,8 +26,6 @@ import com.gft.loja.domain.service.ProdutoService;
 @RestController
 @RequestMapping("/api/produtos")
 public class ProdutosController {
-
-	
 	
 	@Autowired
 	private ProdutoService produtoService;
@@ -35,9 +33,32 @@ public class ProdutosController {
 	@Autowired
 	private ProdutoMapper produtoMapper;
 	
+	@Autowired
+	private EstoqueMapper estoqueMapper;
+	
+	@GetMapping("/todos")
+	public List<ProdutoModel> listarTodos(){
+		return produtoMapper.toCollectionModel(produtoService.listarTodos());
+	}
+	
 	@GetMapping
-	public List<ProdutoModel> listar(){
-		return produtoMapper.toCollectionModel(produtoService.listar());
+	public List<EstoqueResumoModel> listar(){
+		return estoqueMapper.toCollectionModelResumo(produtoService.listar());
+	}
+	
+	@GetMapping("/asc")
+	public List<EstoqueResumoModel> listarAsc(){
+		return estoqueMapper.toCollectionModelResumo(produtoService.listarAsc());
+	}
+	
+	@GetMapping("/desc")
+	public List<EstoqueResumoModel> listarDesc(){
+		return estoqueMapper.toCollectionModelResumo(produtoService.listarDesc());
+	}
+	
+	@GetMapping("/nome/{produtoDesc}")
+	public List<EstoqueResumoModel> listarComFiltro(@PathVariable String produtoDesc){
+		return estoqueMapper.toCollectionModelResumo(produtoService.listarComFiltro(produtoDesc));
 	}
 	
 	@GetMapping("/{produtoId}")

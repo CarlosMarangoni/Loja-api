@@ -23,6 +23,14 @@ public class FornecedorService {
 		return fornecedorRepository.findAll();
 	}
 	
+	public List<Fornecedor> listarComFiltroNome(String fornecedorDesc) {
+		return fornecedorRepository.findByNomeContaining(fornecedorDesc);
+	}
+	
+	public List<Fornecedor> listarComFiltroCnpj(String fornecedorCnpj) {
+		return fornecedorRepository.findByCnpjContaining(fornecedorCnpj);
+	}
+	
 	public Fornecedor buscar(Long id) {
 		return fornecedorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Fornecedor não encontrado. Faça o preenchimento correto e tente novamente"));
 
@@ -55,5 +63,9 @@ public class FornecedorService {
 		 return fornecedorRepository.findByCnpj(fornecedor.getCnpj()).stream()
 				.anyMatch(fornecedorExistente -> !fornecedorExistente.equals(fornecedor));		
 	}
+
+	
+
+	
 	
 }

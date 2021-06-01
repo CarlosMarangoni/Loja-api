@@ -9,6 +9,8 @@ public class ClienteModel {
 	private String cpf;
 
 	private String telefone;
+	
+	private String email;
 
 	private EnderecoResumoModel endereco;
 
@@ -42,6 +44,16 @@ public class ClienteModel {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public EnderecoResumoModel getEndereco() {

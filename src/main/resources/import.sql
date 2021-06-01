@@ -8,6 +8,8 @@ INSERT INTO estoque (id,produto_id,quantidade,valor_venda) VALUES (2,2,10,20);
 INSERT INTO estoque (id,produto_id,quantidade,valor_venda) VALUES (3,3,10,30);
 INSERT INTO perfil (descricao) VALUES ('LOJA');
 INSERT INTO perfil (descricao) VALUES ('CLIENTE');
-INSERT INTO usuario (email,nome,senha) VALUES ("marangoni.darlan1@gmail.com","Darlan Marangoni","1234");
+INSERT INTO usuario (dtype,email,nome,senha) VALUES ("Usuario","loja@loja.com","Loja","$2a$10$2KAjNF9hMFp8s6ZEkikonutmLmB.mKJ0s.VVHHu4e3UiKaed3BurS");
+INSERT INTO usuario (dtype,email,nome,senha,cpf,bairro,cep,complemento,estado,logradouro,municipio,numero,telefone) VALUES ("Cliente","cliente@cliente.com","Cliente","$2a$10$2KAjNF9hMFp8s6ZEkikonutmLmB.mKJ0s.VVHHu4e3UiKaed3BurS","48699576803","Nova Mairinque","18120000","Casa","SP","Rua Antonio Francisco Lisboa","Mairinque","363","11997516492");
 INSERT INTO usuario_perfis (usuario_id,perfis_id) VALUES (1,1);
+INSERT INTO usuario_perfis (usuario_id,perfis_id) VALUES (2,2);
 

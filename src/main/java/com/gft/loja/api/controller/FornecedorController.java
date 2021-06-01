@@ -19,15 +19,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gft.loja.domain.model.Fornecedor;
-import com.gft.loja.domain.repository.FornecedorRepository;
 import com.gft.loja.domain.service.FornecedorService;
 
 @RestController
 @RequestMapping("/api/fornecedores")
 public class FornecedorController {
 
-	@Autowired
-	private FornecedorRepository fornecedorRepository;
+	;
 	
 	@Autowired
 	private FornecedorService fornecedorService;
@@ -35,6 +33,16 @@ public class FornecedorController {
 	@GetMapping
 	public List<Fornecedor> listar(){
 		return fornecedorService.listar();
+	}
+	
+	@GetMapping("/nome/{fornecedorNome}")
+	public List<Fornecedor> listarComFiltroNome(@PathVariable String fornecedorNome){
+		return fornecedorService.listarComFiltroNome(fornecedorNome);
+	}
+	
+	@GetMapping("/cnpj/{fornecedorCnpj}")
+	public List<Fornecedor> listarComFiltroCnpj(@PathVariable String fornecedorCnpj){
+		return fornecedorService.listarComFiltroCnpj(fornecedorCnpj);
 	}
 	
 	@GetMapping("/{fornecedorId}")

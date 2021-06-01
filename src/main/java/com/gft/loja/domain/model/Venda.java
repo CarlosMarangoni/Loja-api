@@ -2,7 +2,6 @@ package com.gft.loja.domain.model;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,13 +13,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.gft.loja.domain.model.enumeration.StatusVenda;
 
 @Entity
@@ -30,11 +27,14 @@ public class Venda {
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
+	@JsonProperty(access = Access.READ_ONLY)
 	private StatusVenda statusVenda;
 
 	@ManyToOne
+	@JsonProperty(access = Access.READ_ONLY)
 	private Cliente cliente;
 
+	@JsonProperty(access = Access.READ_ONLY)
 	private OffsetDateTime dataVenda;
 
 	@Valid

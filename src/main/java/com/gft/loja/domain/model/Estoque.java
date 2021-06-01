@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Min;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.gft.loja.domain.exception.ItemBodyViolationException;
 
 @Entity
@@ -16,9 +18,11 @@ public class Estoque {
 	private Long id;
 
 	@OneToOne
+	@JsonProperty(access = Access.READ_ONLY)
 	private Produto produto;
 
 	@Min(0)
+	@JsonProperty(access = Access.READ_ONLY)
 	private double quantidade;
 
 	private BigDecimal valorVenda;

@@ -13,14 +13,13 @@ import com.gft.loja.domain.exception.ItemBodyViolationException;
 import com.gft.loja.domain.model.Compra;
 import com.gft.loja.domain.model.Estoque;
 import com.gft.loja.domain.repository.CompraRepository;
-import com.gft.loja.domain.repository.EstoqueRepository;
 
 @Service
 public class CompraService {
 
 	@Autowired
 	private CompraRepository compraRepository;
-	
+
 	@Autowired
 	private EstoqueService estoqueService;
 
@@ -29,6 +28,10 @@ public class CompraService {
 
 	public List<Compra> listar() {
 		return compraRepository.findAll();
+	}
+
+	public List<Compra> listarComFitroCodFornecedor(Long fornecedorId) {
+		return compraRepository.findByFornecedorId(fornecedorId);
 	}
 
 	public Compra buscar(Long id) {
@@ -40,14 +43,13 @@ public class CompraService {
 		AtomicInteger atomicSum = new AtomicInteger(0);
 
 		try {
-			compra.getItens().forEach(c ->{
-				
+			compra.getItens().forEach(c -> {
+
 				if (c.getItensCompraPK().getProduto() == null) {
 					throw new ItemBodyViolationException(
 							"Código do produto inválido. Faça o preenchimento correto e tente novamente.");
 				}
-				
-				
+
 				Estoque estoque = estoqueService.buscar(c.getItensCompraPK().getProduto().getId());
 				c.getItensCompraPK().setProduto(estoque.getProduto());
 				estoque.somaQuantidadeProduto(c.getQuantidade());
