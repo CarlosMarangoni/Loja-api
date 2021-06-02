@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,17 +28,20 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 
 	@GetMapping
+	@PreAuthorize("hasAuthority('LOJA')")
 	public List<Usuario> listar() {
 		return usuarioService.listar();
 	}
 
 	@GetMapping("/{usuarioId}")
+	@PreAuthorize("hasAuthority('LOJA')")
 	public Usuario buscar(@PathVariable Long usuarioId) {
 		Usuario usuario = usuarioService.buscar(usuarioId);
 		return usuario;
 	}
 
 	@PostMapping
+	@PreAuthorize("hasAuthority('LOJA')")
 	public ResponseEntity<?> adicionar(@Valid @RequestBody Usuario usuario) {
 		Usuario usuarioSalva = usuarioService.salvarUsuario(usuario);
 
@@ -46,6 +50,7 @@ public class UsuarioController {
 
 	@DeleteMapping("/{usuarioId}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('LOJA')")
 	public void excluir(@PathVariable Long usuarioId){
 		usuarioService.excluir(usuarioId);
 	}

@@ -1,5 +1,6 @@
 package com.gft.loja.domain.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -7,6 +8,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,12 +31,22 @@ public class ProdutoService {
 	@Autowired
 	private EstoqueService estoqueService;
 
-	public List<Produto> listarTodos() {
-		return produtoRepository.findAll();
-	}
 	
 	public List<Estoque> listar() {
-		return estoqueRepository.findByQuantidadeGreaterThanAndValorVendaIsNotNull(0);
+ 		Collection<? extends GrantedAuthority> perfis = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		
+		if(perfis.stream().anyMatch(p -> p.getAuthority().equals("LOJA"))) {
+			System.out.println("perfil loja");
+			return estoqueRepository.findAll();
+		}
+		if(perfis.stream().anyMatch(p -> p.getAuthority().equals("CLIENTE"))) {
+			System.out.println("perfil cliente");
+			return estoqueRepository.findByQuantidadeGreaterThanAndValorVendaIsNotNull(0);
+		}
+		return null;
+		
+		
+		
 	}
 	
 	public List<Estoque> listarAsc() {

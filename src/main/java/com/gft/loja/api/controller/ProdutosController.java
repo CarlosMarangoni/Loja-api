@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,32 +37,32 @@ public class ProdutosController {
 	@Autowired
 	private EstoqueMapper estoqueMapper;
 	
-	@GetMapping("/todos")
-	public List<ProdutoModel> listarTodos(){
-		return produtoMapper.toCollectionModel(produtoService.listarTodos());
-	}
-	
 	@GetMapping
+	@PreAuthorize("hasAuthority('LOJA') or hasAuthority('CLIENTE')")
 	public List<EstoqueResumoModel> listar(){
 		return estoqueMapper.toCollectionModelResumo(produtoService.listar());
 	}
 	
 	@GetMapping("/asc")
+	@PreAuthorize("hasAuthority('LOJA') or hasAuthority('CLIENTE')")
 	public List<EstoqueResumoModel> listarAsc(){
 		return estoqueMapper.toCollectionModelResumo(produtoService.listarAsc());
 	}
 	
 	@GetMapping("/desc")
+	@PreAuthorize("hasAuthority('LOJA') or hasAuthority('CLIENTE')")
 	public List<EstoqueResumoModel> listarDesc(){
 		return estoqueMapper.toCollectionModelResumo(produtoService.listarDesc());
 	}
 	
 	@GetMapping("/nome/{produtoDesc}")
+	@PreAuthorize("hasAuthority('LOJA') or hasAuthority('CLIENTE')")
 	public List<EstoqueResumoModel> listarComFiltro(@PathVariable String produtoDesc){
 		return estoqueMapper.toCollectionModelResumo(produtoService.listarComFiltro(produtoDesc));
 	}
 	
 	@GetMapping("/{produtoId}")
+	@PreAuthorize("hasAuthority('LOJA') or hasAuthority('CLIENTE')")
 	public ProdutoModel buscar(@PathVariable Long produtoId) {
 		return produtoMapper.toModel(produtoService.buscar(produtoId));
 		 
@@ -69,11 +70,13 @@ public class ProdutosController {
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
+	@PreAuthorize("hasAuthority('LOJA')")
 	public ProdutoModel adicionar(@Valid @RequestBody Produto produto){
 		return produtoMapper.toModel(produtoService.salvar(produto));
 	}
 	
 	@PutMapping("/{produtoId}")
+	@PreAuthorize("hasAuthority('LOJA')")
 	public ProdutoModel editar (@Valid @RequestBody Produto produto,@PathVariable Long produtoId){
 		return produtoMapper.toModel(produtoService.atualizar(produtoId,produto));
 		
@@ -81,6 +84,7 @@ public class ProdutosController {
 	
 	@DeleteMapping("/{produtoId}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('LOJA')")
 	public void excluir(@PathVariable Long produtoId){
 		produtoService.excluir(produtoId);
 	}

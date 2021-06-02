@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,11 +30,13 @@ public class EstoqueController {
 	private EstoqueMapper estoqueMapper;
 	
 	@GetMapping
+	@PreAuthorize("hasAuthority('LOJA')")
 	public List<EstoqueModel> listar(){
 		return estoqueMapper.toCollectionModel(estoqueService.listar());
 	}
 	
 	@GetMapping("/{estoqueId}")
+	@PreAuthorize("hasAuthority('LOJA')")
 	public EstoqueModel buscar(@PathVariable Long estoqueId) {
 		return estoqueMapper.toModel(estoqueService.buscar(estoqueId));
 		
@@ -41,6 +44,7 @@ public class EstoqueController {
 	
 
 	@PutMapping("/{estoqueId}")
+	@PreAuthorize("hasAuthority('LOJA')")
 	public EstoqueModel atualizar (@Valid @RequestBody Estoque estoque,@PathVariable Long estoqueId){		
 		return estoqueMapper.toModel(estoqueService.atualizar(estoqueId,estoque));
 	}

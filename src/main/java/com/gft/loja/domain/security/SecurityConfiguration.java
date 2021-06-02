@@ -20,6 +20,7 @@ import com.gft.loja.domain.repository.UsuarioRepository;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
 	@Autowired
@@ -47,8 +48,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.POST,"/api/clientes/cadastrar").permitAll()
-		.antMatchers(HttpMethod.GET,"/produtos/**").hasAnyAuthority("CLIENTE","LOJA")
-		.antMatchers(HttpMethod.GET,"/produtos/todos").hasAnyAuthority("LOJA")
+		.antMatchers(HttpMethod.GET,"/api/produtos/**").hasAnyAuthority("CLIENTE","LOJA")
+		.antMatchers(HttpMethod.GET,"/api/produtos/todos").hasAnyAuthority("LOJA")
 		.antMatchers(HttpMethod.POST,"/api/vendas").hasAnyAuthority("CLIENTE")
 		.antMatchers(HttpMethod.PUT,"/api/vendas/**").hasAnyAuthority("CLIENTE")
 		.antMatchers(HttpMethod.POST,"/api/**").hasAnyAuthority("LOJA")

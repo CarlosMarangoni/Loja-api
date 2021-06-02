@@ -43,6 +43,7 @@ public class ClienteController {
 
 	
 	@GetMapping("/{clienteId}")
+	@PreAuthorize("hasAuthority('LOJA')")
 	public ClienteModel buscar(@PathVariable Long clienteId) {
 		return clienteMapper.toModel(clienteService.buscar(clienteId));
 		
@@ -56,6 +57,7 @@ public class ClienteController {
 	
 	@DeleteMapping("/{clienteId}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('LOJA')")
 	public void excluir(@PathVariable Long clienteId){
 		clienteService.excluir(clienteId);
 	}
