@@ -1,7 +1,6 @@
 package com.gft.loja.domain.model;
 
 import java.time.OffsetDateTime;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,8 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 

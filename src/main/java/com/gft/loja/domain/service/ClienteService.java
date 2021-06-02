@@ -43,7 +43,7 @@ public class ClienteService {
 			clienteRepository.deleteById(clienteId);
 
 		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException("Cliente está em uso por outra entidade.");
+			throw new EntidadeEmUsoException("Cliente não pode ser excluído pois possui vendas vinculadas.");
 		} catch (EmptyResultDataAccessException e) {
 			throw new NoSuchElementException();
 		}

@@ -4,22 +4,12 @@ import java.math.BigDecimal;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.format.annotation.NumberFormat;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.gft.loja.domain.model.pk.ItensCompraPK;
-import com.gft.loja.domain.model.pk.ItensVendaPK;
 
 @Entity
 @Table(name = "itens_compra")

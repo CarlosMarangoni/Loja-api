@@ -7,7 +7,6 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.access.method.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import com.gft.loja.domain.model.Perfil;
 import com.gft.loja.domain.model.Usuario;
 import com.gft.loja.domain.repository.PerfilRepository;
 import com.gft.loja.domain.repository.UsuarioRepository;
-import com.gft.loja.domain.security.TokenService;
 
 @Service
 public class UsuarioService {

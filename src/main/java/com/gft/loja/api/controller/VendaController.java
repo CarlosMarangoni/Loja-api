@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gft.loja.api.mapper.VendaMapper;
 import com.gft.loja.api.model.VendaModel;
 import com.gft.loja.domain.model.Venda;
-import com.gft.loja.domain.model.enumeration.StatusVenda;
 import com.gft.loja.domain.service.VendaService;
 
 @RestController
