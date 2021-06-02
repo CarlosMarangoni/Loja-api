@@ -1,5 +1,6 @@
 package com.gft.loja.domain.service;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -12,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gft.loja.domain.exception.ItemBodyViolationException;
 import com.gft.loja.domain.model.Estoque;
+import com.gft.loja.domain.model.Movimento;
 import com.gft.loja.domain.model.Usuario;
 import com.gft.loja.domain.model.Venda;
 import com.gft.loja.domain.model.enumeration.StatusVenda;
+import com.gft.loja.domain.repository.MovimentoRepository;
 import com.gft.loja.domain.repository.VendaRepository;
 
 @Service
@@ -31,6 +34,9 @@ public class VendaService {
 
 	@Autowired
 	private SenderMailService senderMailService;
+
+	@Autowired
+	private MovimentoRepository movimentoRepository;
 
 	public List<Venda> listar() {
 		return vendaRepository.findAll();
@@ -65,19 +71,23 @@ public class VendaService {
 							"Código do produto inválido. Faça o preenchimento correto e tente novamente.");
 				}
 
-				Estoque estoque = estoqueService.buscar(i.getItensVendaPK().getProduto().getId()); //Busca o produto na tabela Estoque
-				if (estoque.getValorVenda() == null) {
+				Estoque estoque = estoqueService.buscar(i.getItensVendaPK().getProduto().getId()); // Busca o produto na
+																									// tabela Estoque
+				if (estoque.getValorVenda() == null) { // Verifica se valor de Venda é nulo
 					throw new ItemBodyViolationException(
-							"Produto " + estoque.getId() + " - " + estoque.getProduto().getDescricao() + " indisponível para venda. Faça o preenchimento correto e tente novamente."); 
+							"Produto " + estoque.getId() + " - " + estoque.getProduto().getDescricao()
+									+ " indisponível para venda. Faça o preenchimento correto e tente novamente.");
 				}
 				i.getItensVendaPK().setProduto(estoque.getProduto());
 				estoque.subtraiQuantidadeProduto(i.getQuantidade());// Subtrai as quantidades da venda pela quantidade
 																	// do estoque
-
-				i.setValorVenda(estoque.calculaVenda(i.getQuantidade()));// Calcula preço final de venda do item
+				BigDecimal valorVenda = estoque.calculaVenda(i.getQuantidade());
+				i.setValorVenda(valorVenda);// Calcula preço final de venda do item
 				i.getItensVendaPK().setVenda(venda);
 				i.setItem(atomicSum.incrementAndGet());
 
+				Movimento movimento = new Movimento(venda, i.getQuantidade(), estoque.getValorVenda(), valorVenda); //Registra movimento
+				movimentoRepository.save(movimento);
 			});
 			venda.setCliente(clienteService.buscar(usuarioLogado.getId())); // Determina o cliente com base no usuario
 																			// logado

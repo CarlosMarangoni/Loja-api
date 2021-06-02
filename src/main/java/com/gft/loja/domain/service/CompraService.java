@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gft.loja.domain.exception.ItemBodyViolationException;
 import com.gft.loja.domain.model.Compra;
 import com.gft.loja.domain.model.Estoque;
+import com.gft.loja.domain.model.Movimento;
 import com.gft.loja.domain.repository.CompraRepository;
+import com.gft.loja.domain.repository.MovimentoRepository;
 
 @Service
 public class CompraService {
@@ -25,6 +27,9 @@ public class CompraService {
 
 	@Autowired
 	private FornecedorService fornecedorService;
+	
+	@Autowired
+	private MovimentoRepository movimentoRepository;
 
 	public List<Compra> listar() {
 		return compraRepository.findAll();
@@ -44,7 +49,6 @@ public class CompraService {
 
 		try {
 			compra.getItens().forEach(c -> {
-
 				if (c.getItensCompraPK().getProduto() == null) {
 					throw new ItemBodyViolationException(
 							"Código do produto inválido. Faça o preenchimento correto e tente novamente.");
@@ -55,6 +59,8 @@ public class CompraService {
 				estoque.somaQuantidadeProduto(c.getQuantidade());
 				c.getItensCompraPK().setCompra(compra);
 				c.setItem(atomicSum.incrementAndGet());
+				Movimento movimento = new Movimento(compra,c.getQuantidade(),c.getValorCompra(),(c.getValorCompra().multiply(c.getValorCompra())));
+				movimentoRepository.save(movimento);
 			});
 			compra.setFornecedor(fornecedorService.buscar(compra.getFornecedor().getId()));
 			compra.setDataCompra(OffsetDateTime.now());
@@ -62,7 +68,8 @@ public class CompraService {
 		} catch (NoSuchElementException e) {
 			throw new ItemBodyViolationException(e.getMessage());
 		}
-
+		
+		
 		return compraRepository.save(compra);
 	}
 

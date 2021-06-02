@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -29,6 +30,9 @@ public class Compra {
 	
 	@ManyToOne
 	private Fornecedor fornecedor;	
+	
+	@NotNull
+	private String notaFiscal;
 	
 	@Valid
 	@NotEmpty
@@ -57,6 +61,14 @@ public class Compra {
 
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
+	}
+
+	public String getNotaFiscal() {
+		return notaFiscal;
+	}
+
+	public void setNotaFiscal(String notaFiscal) {
+		this.notaFiscal = notaFiscal;
 	}
 
 	public List<ItensCompra> getItens() {

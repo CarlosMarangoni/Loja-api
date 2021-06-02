@@ -9,12 +9,13 @@ public class CompraModel {
 
 	private Long id;
 
+	private String notaFiscal;
+
 	private String emailFornecedor;
 
 	private String nomeFornecedor;
 
 	private OffsetDateTime dataCompra;
-
 
 	private List<ItensCompra> itensCompra;
 
@@ -24,6 +25,14 @@ public class CompraModel {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getNotaFiscal() {
+		return notaFiscal;
+	}
+
+	public void setNotaFiscal(String notaFiscal) {
+		this.notaFiscal = notaFiscal;
 	}
 
 	public String getEmailFornecedor() {
