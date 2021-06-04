@@ -40,13 +40,12 @@ public class Movimento {
 	@Column(name = "saida_total")
 	private BigDecimal totalVenda;
 
-	public Movimento(Compra entrada, double quantidadeCompra, BigDecimal valorCompra,BigDecimal totalCompra) {
+	public Movimento(Compra entrada, double quantidadeCompra, BigDecimal valorCompra, BigDecimal totalCompra) {
 		this.entrada = entrada;
 		this.quantidadeCompra = quantidadeCompra;
 		this.valorCompra = valorCompra;
 		this.totalCompra = totalCompra;
 	}
-	
 
 	public Movimento(Venda saida, double quantidadeVenda, BigDecimal valorVenda, BigDecimal totalVenda) {
 		this.saida = saida;
@@ -54,8 +53,6 @@ public class Movimento {
 		this.valorVenda = valorVenda;
 		this.totalVenda = totalVenda;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -81,7 +78,6 @@ public class Movimento {
 		this.quantidadeCompra = quantidadeCompra;
 	}
 
-	
 	public BigDecimal getValorCompra() {
 		return valorCompra;
 	}
@@ -122,5 +118,4 @@ public class Movimento {
 		this.quantidadeVenda = quantidadeVenda;
 	}
 
-	
 }

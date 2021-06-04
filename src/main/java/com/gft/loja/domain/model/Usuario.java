@@ -16,30 +16,31 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class Usuario implements UserDetails{
+public class Usuario implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
-	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull
 	private String email;
-	
+
 	@NotNull
 	private String nome;
-	
+
 	@NotNull
-	private String senha;	
-	
+	private String senha;
+
 	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Perfil> perfis = new ArrayList<>();	
-	
+	private List<Perfil> perfis = new ArrayList<>();
+
 	public Usuario() {
 	}
 
 	public Usuario(@NotNull String email, @NotNull String nome, @NotNull String senha, List<Perfil> perfis) {
-		
+
 		this.email = email;
 		this.nome = nome;
 		this.senha = senha;
@@ -94,7 +95,7 @@ public class Usuario implements UserDetails{
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
+
 	public List<Perfil> getPerfis() {
 		return perfis;
 	}
@@ -104,7 +105,7 @@ public class Usuario implements UserDetails{
 	}
 
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {	
+	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.perfis;
 	}
 
@@ -138,7 +139,6 @@ public class Usuario implements UserDetails{
 		return true;
 	}
 
-
 	public String getEmail() {
 		return email;
 	}
@@ -147,9 +147,4 @@ public class Usuario implements UserDetails{
 		this.email = email;
 	}
 
-
-	
-	
-	
-	
 }

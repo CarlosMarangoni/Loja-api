@@ -27,65 +27,65 @@ import com.gft.loja.domain.service.ProdutoService;
 @RestController
 @RequestMapping("/api/produtos")
 public class ProdutosController {
-	
+
 	@Autowired
 	private ProdutoService produtoService;
-	
+
 	@Autowired
 	private ProdutoMapper produtoMapper;
-	
+
 	@Autowired
 	private EstoqueMapper estoqueMapper;
-	
+
 	@GetMapping
 	@PreAuthorize("hasAuthority('LOJA') or hasAuthority('CLIENTE')")
-	public List<EstoqueResumoModel> listar(){
+	public List<EstoqueResumoModel> listar() {
 		return estoqueMapper.toCollectionModelResumo(produtoService.listar());
 	}
-	
+
 	@GetMapping("/asc")
 	@PreAuthorize("hasAuthority('LOJA') or hasAuthority('CLIENTE')")
-	public List<EstoqueResumoModel> listarAsc(){
+	public List<EstoqueResumoModel> listarAsc() {
 		return estoqueMapper.toCollectionModelResumo(produtoService.listarAsc());
 	}
-	
+
 	@GetMapping("/desc")
 	@PreAuthorize("hasAuthority('LOJA') or hasAuthority('CLIENTE')")
-	public List<EstoqueResumoModel> listarDesc(){
+	public List<EstoqueResumoModel> listarDesc() {
 		return estoqueMapper.toCollectionModelResumo(produtoService.listarDesc());
 	}
-	
+
 	@GetMapping("/nome/{produtoDesc}")
 	@PreAuthorize("hasAuthority('LOJA') or hasAuthority('CLIENTE')")
-	public List<EstoqueResumoModel> listarComFiltro(@PathVariable String produtoDesc){
+	public List<EstoqueResumoModel> listarComFiltro(@PathVariable String produtoDesc) {
 		return estoqueMapper.toCollectionModelResumo(produtoService.listarComFiltro(produtoDesc));
 	}
-	
+
 	@GetMapping("/{produtoId}")
 	@PreAuthorize("hasAuthority('LOJA') or hasAuthority('CLIENTE')")
 	public ProdutoModel buscar(@PathVariable Long produtoId) {
 		return produtoMapper.toModel(produtoService.buscar(produtoId));
-		 
+
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PreAuthorize("hasAuthority('LOJA')")
-	public ProdutoModel adicionar(@Valid @RequestBody Produto produto){
+	public ProdutoModel adicionar(@Valid @RequestBody Produto produto) {
 		return produtoMapper.toModel(produtoService.salvar(produto));
 	}
-	
+
 	@PutMapping("/{produtoId}")
 	@PreAuthorize("hasAuthority('LOJA')")
-	public ProdutoModel editar (@Valid @RequestBody Produto produto,@PathVariable Long produtoId){
-		return produtoMapper.toModel(produtoService.atualizar(produtoId,produto));
-		
+	public ProdutoModel editar(@Valid @RequestBody Produto produto, @PathVariable Long produtoId) {
+		return produtoMapper.toModel(produtoService.atualizar(produtoId, produto));
+
 	}
-	
+
 	@DeleteMapping("/{produtoId}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@PreAuthorize("hasAuthority('LOJA')")
-	public void excluir(@PathVariable Long produtoId){
+	public void excluir(@PathVariable Long produtoId) {
 		produtoService.excluir(produtoId);
 	}
 }

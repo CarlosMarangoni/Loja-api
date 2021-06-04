@@ -2,28 +2,35 @@ package com.gft.loja.domain.model;
 
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Embeddable
 public class Endereco {
 
 	@NotNull
+	@Size(min=5, max = 60)
 	private String logradouro;
 
 	@NotNull
+	@Size(min=1, max = 10)
 	private String numero;
 
 	private String complemento;
 
 	@NotNull
+	@Size(min=3, max = 30)
 	private String bairro;
 
 	@NotNull
+	@Size(min=3, max = 25)
 	private String municipio;
 
 	@NotNull
+	@Size(min=2, max = 20)
 	private String estado;
 
 	@NotNull
+	@Size(min=8, max = 10)
 	private String cep;
 
 	public String getLogradouro() {
@@ -81,6 +88,5 @@ public class Endereco {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
-	
-	
+
 }

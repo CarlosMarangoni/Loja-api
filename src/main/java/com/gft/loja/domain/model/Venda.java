@@ -40,7 +40,6 @@ public class Venda {
 	@NotEmpty
 	@OneToMany(mappedBy = "itensVendaPK.venda", cascade = CascadeType.ALL)
 	private List<ItensVenda> itensVenda;
-	
 
 	public Long getId() {
 		return id;
@@ -57,8 +56,6 @@ public class Venda {
 	public void setStatusVenda(StatusVenda statusVenda) {
 		this.statusVenda = statusVenda;
 	}
-
-	
 
 	public Cliente getCliente() {
 		return cliente;
@@ -83,7 +80,5 @@ public class Venda {
 	public void setItensVenda(List<ItensVenda> itensVenda) {
 		this.itensVenda = itensVenda;
 	}
-
-	
 
 }

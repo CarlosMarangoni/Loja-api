@@ -21,12 +21,13 @@ public class EstoqueService {
 	}
 
 	public Estoque buscar(Long id) {
-		return estoqueRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Produto não encontrado. Faça o preenchimento correto e tente novamente"));
+		return estoqueRepository.findById(id).orElseThrow(() -> new NoSuchElementException(
+				"Produto não encontrado. Faça o preenchimento correto e tente novamente"));
 
 	}
 
 	@Transactional
-	public Estoque atualizar(Long id, Estoque estoque) {		
+	public Estoque atualizar(Long id, Estoque estoque) {
 		Estoque estoqueSalvo = estoqueRepository.findById(id).get();
 		estoqueSalvo.setValorVenda(estoque.getValorVenda());
 		return estoqueRepository.save(estoqueSalvo);

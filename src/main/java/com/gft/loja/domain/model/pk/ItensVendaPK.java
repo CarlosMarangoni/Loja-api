@@ -11,19 +11,18 @@ import com.gft.loja.domain.model.Produto;
 import com.gft.loja.domain.model.Venda;
 
 @Embeddable
-public class ItensVendaPK implements Serializable{
-	
+public class ItensVendaPK implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne
 	@JoinColumn(name = "produto_id")
 	private Produto produto;
-	
+
 	@ManyToOne
 	@JsonIgnore
 	private Venda venda;
-	
-	
+
 	public ItensVendaPK() {
 	}
 
@@ -42,7 +41,6 @@ public class ItensVendaPK implements Serializable{
 	public void setVenda(Venda venda) {
 		this.venda = venda;
 	}
-	
 
 	@Override
 	public int hashCode() {
@@ -74,6 +72,5 @@ public class ItensVendaPK implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
 }

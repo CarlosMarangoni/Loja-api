@@ -10,7 +10,6 @@ public class ProdutoModel {
 
 	private UnidadeMedida unidadeMedida;
 
-
 	public Long getId() {
 		return id;
 	}
@@ -34,7 +33,5 @@ public class ProdutoModel {
 	public void setUnidadeMedida(UnidadeMedida unidadeMedida) {
 		this.unidadeMedida = unidadeMedida;
 	}
-
-	
 
 }

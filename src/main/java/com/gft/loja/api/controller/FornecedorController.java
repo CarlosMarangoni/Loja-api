@@ -26,57 +26,55 @@ import com.gft.loja.domain.service.FornecedorService;
 @RequestMapping("/api/fornecedores")
 public class FornecedorController {
 
-	;
-	
 	@Autowired
 	private FornecedorService fornecedorService;
-	
+
 	@GetMapping
 	@PreAuthorize("hasAuthority('LOJA')")
-	public List<Fornecedor> listar(){
+	public List<Fornecedor> listar() {
 		return fornecedorService.listar();
 	}
-	
+
 	@GetMapping("/nome/{fornecedorNome}")
 	@PreAuthorize("hasAuthority('LOJA')")
-	public List<Fornecedor> listarComFiltroNome(@PathVariable String fornecedorNome){
+	public List<Fornecedor> listarComFiltroNome(@PathVariable String fornecedorNome) {
 		return fornecedorService.listarComFiltroNome(fornecedorNome);
 	}
-	
+
 	@GetMapping("/cnpj/{fornecedorCnpj}")
 	@PreAuthorize("hasAuthority('LOJA')")
-	public List<Fornecedor> listarComFiltroCnpj(@PathVariable String fornecedorCnpj){
+	public List<Fornecedor> listarComFiltroCnpj(@PathVariable String fornecedorCnpj) {
 		return fornecedorService.listarComFiltroCnpj(fornecedorCnpj);
 	}
-	
+
 	@GetMapping("/{fornecedorId}")
 	@PreAuthorize("hasAuthority('LOJA')")
 	public Fornecedor buscar(@PathVariable Long fornecedorId) {
 		Fornecedor fornecedor = fornecedorService.buscar(fornecedorId);
 		return fornecedor;
 	}
-	
+
 	@PostMapping
 	@PreAuthorize("hasAuthority('LOJA')")
-	public ResponseEntity<?> adicionar(@Valid @RequestBody Fornecedor fornecedor){
+	public ResponseEntity<?> adicionar(@Valid @RequestBody Fornecedor fornecedor) {
 		Fornecedor fornecedorSalvo = fornecedorService.salvar(fornecedor);
-		
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(fornecedorSalvo);
 	}
-	
+
 	@PutMapping("/{fornecedorId}")
 	@PreAuthorize("hasAuthority('LOJA')")
-	public ResponseEntity<?> editar (@Valid @RequestBody Fornecedor fornecedor,@PathVariable Long fornecedorId){
+	public ResponseEntity<?> editar(@Valid @RequestBody Fornecedor fornecedor, @PathVariable Long fornecedorId) {
 		Fornecedor fornecedorBuscado = fornecedorService.buscar(fornecedorId);
-		BeanUtils.copyProperties(fornecedor, fornecedorBuscado,"id");
+		BeanUtils.copyProperties(fornecedor, fornecedorBuscado, "id");
 		fornecedorService.salvar(fornecedorBuscado);
 		return ResponseEntity.ok(fornecedorBuscado);
 	}
-	
+
 	@DeleteMapping("/{fornecedorId}")
 	@PreAuthorize("hasAuthority('LOJA')")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	public void excluir(@PathVariable Long fornecedorId){
+	public void excluir(@PathVariable Long fornecedorId) {
 		fornecedorService.excluir(fornecedorId);
 	}
 }

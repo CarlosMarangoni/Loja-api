@@ -31,36 +31,34 @@ public class ProdutoService {
 	@Autowired
 	private EstoqueService estoqueService;
 
-	
 	public List<Estoque> listar() {
- 		Collection<? extends GrantedAuthority> perfis = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-		
-		if(perfis.stream().anyMatch(p -> p.getAuthority().equals("LOJA"))) {
+		Collection<? extends GrantedAuthority> perfis = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+
+		if (perfis.stream().anyMatch(p -> p.getAuthority().equals("LOJA"))) {
 			System.out.println("perfil loja");
 			return estoqueRepository.findAll();
 		}
-		if(perfis.stream().anyMatch(p -> p.getAuthority().equals("CLIENTE"))) {
+		if (perfis.stream().anyMatch(p -> p.getAuthority().equals("CLIENTE"))) {
 			System.out.println("perfil cliente");
 			return estoqueRepository.findByQuantidadeGreaterThanAndValorVendaIsNotNull(0);
 		}
 		return null;
-		
-		
-		
+
 	}
-	
+
 	public List<Estoque> listarAsc() {
 		return estoqueRepository.findByQuantidadeGreaterThanAndValorVendaIsNotNullOrderByProdutoDescricaoAsc(0);
 	}
-	
+
 	public List<Estoque> listarDesc() {
 		return estoqueRepository.findByQuantidadeGreaterThanAndValorVendaIsNotNullOrderByProdutoDescricaoDesc(0);
 	}
-	
+
 	public List<Estoque> listarComFiltro(String produtoDesc) {
-		return estoqueRepository.findByQuantidadeGreaterThanAndValorVendaIsNotNullAndProdutoDescricaoContaining(0,produtoDesc);
+		return estoqueRepository.findByQuantidadeGreaterThanAndValorVendaIsNotNullAndProdutoDescricaoContaining(0,
+				produtoDesc);
 	}
-	
 
 	public Produto buscar(Long id) {
 		return produtoRepository.findById(id).orElseThrow(() -> new NoSuchElementException(
@@ -113,7 +111,4 @@ public class ProdutoService {
 		return produtoBuscado;
 	}
 
-	
-
-	
 }

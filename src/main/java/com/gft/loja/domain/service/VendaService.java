@@ -73,7 +73,7 @@ public class VendaService {
 
 				Estoque estoque = estoqueService.buscar(i.getItensVendaPK().getProduto().getId()); // Busca o produto na
 																									// tabela Estoque
-				if (estoque.getValorVenda() == null) { // Verifica se valor de Venda é nulo
+				if (estoque.getValorVenda() == null) { // Verifica se valor de Venda da tabela Estoque é nulo
 					throw new ItemBodyViolationException(
 							"Produto " + estoque.getId() + " - " + estoque.getProduto().getDescricao()
 									+ " indisponível para venda. Faça o preenchimento correto e tente novamente.");
@@ -81,12 +81,12 @@ public class VendaService {
 				i.getItensVendaPK().setProduto(estoque.getProduto());
 				estoque.subtraiQuantidadeProduto(i.getQuantidade());// Subtrai as quantidades da venda pela quantidade
 																	// do estoque
-				BigDecimal valorVenda = estoque.calculaVenda(i.getQuantidade());
-				i.setValorVenda(valorVenda);// Calcula preço final de venda do item
+				BigDecimal valorVenda = estoque.calculaVenda(i.getQuantidade());// Calcula preço final de venda do item
+				i.setValorVenda(valorVenda);
 				i.getItensVendaPK().setVenda(venda);
 				i.setItem(atomicSum.incrementAndGet());
 
-				Movimento movimento = new Movimento(venda, i.getQuantidade(), estoque.getValorVenda(), valorVenda); //Registra movimento
+				Movimento movimento = new Movimento(venda, i.getQuantidade(), estoque.getValorVenda(), valorVenda); //Registra movimento de venda na tabela Movimento
 				movimentoRepository.save(movimento);
 			});
 			venda.setCliente(clienteService.buscar(usuarioLogado.getId())); // Determina o cliente com base no usuario

@@ -15,27 +15,28 @@ import com.gft.loja.domain.repository.FornecedorRepository;
 
 @Service
 public class FornecedorService {
-	
+
 	@Autowired
 	private FornecedorRepository fornecedorRepository;
 
 	public List<Fornecedor> listar() {
 		return fornecedorRepository.findAll();
 	}
-	
+
 	public List<Fornecedor> listarComFiltroNome(String fornecedorDesc) {
 		return fornecedorRepository.findByNomeContaining(fornecedorDesc);
 	}
-	
+
 	public List<Fornecedor> listarComFiltroCnpj(String fornecedorCnpj) {
 		return fornecedorRepository.findByCnpjContaining(fornecedorCnpj);
 	}
-	
+
 	public Fornecedor buscar(Long id) {
-		return fornecedorRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Fornecedor não encontrado. Faça o preenchimento correto e tente novamente"));
+		return fornecedorRepository.findById(id).orElseThrow(() -> new NoSuchElementException(
+				"Fornecedor não encontrado. Faça o preenchimento correto e tente novamente"));
 
 	}
-	
+
 	@Transactional
 	public Fornecedor salvar(Fornecedor fornecedor) {
 		if (fornecedorJaExiste(fornecedor)) {
@@ -44,8 +45,6 @@ public class FornecedorService {
 
 		return fornecedorRepository.save(fornecedor);
 	}
-
-	
 
 	public void excluir(Long fornecedorId) {
 		try {
@@ -58,14 +57,10 @@ public class FornecedorService {
 		}
 
 	}
-	
+
 	private boolean fornecedorJaExiste(Fornecedor fornecedor) {
-		 return fornecedorRepository.findByCnpj(fornecedor.getCnpj()).stream()
-				.anyMatch(fornecedorExistente -> !fornecedorExistente.equals(fornecedor));		
+		return fornecedorRepository.findByCnpj(fornecedor.getCnpj()).stream()
+				.anyMatch(fornecedorExistente -> !fornecedorExistente.equals(fornecedor));
 	}
 
-	
-
-	
-	
 }

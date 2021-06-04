@@ -9,7 +9,7 @@ public class ClienteModel {
 	private String cpf;
 
 	private String telefone;
-	
+
 	private String email;
 
 	private EnderecoResumoModel endereco;
@@ -46,8 +46,6 @@ public class ClienteModel {
 		this.telefone = telefone;
 	}
 
-	
-	
 	public String getEmail() {
 		return email;
 	}

@@ -31,6 +31,7 @@ public class Fornecedor {
 
 	@Email
 	@NotNull
+	@Size(max = 256)
 	private String email;
 
 	@Valid
@@ -84,6 +85,5 @@ public class Fornecedor {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	
 
 }

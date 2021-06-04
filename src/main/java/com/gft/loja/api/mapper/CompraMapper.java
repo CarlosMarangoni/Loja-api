@@ -15,15 +15,14 @@ public class CompraMapper {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	public CompraModel toModel(Compra compra) {
-		
-		return  modelMapper.map(compra, CompraModel.class);
-		
+
+		return modelMapper.map(compra, CompraModel.class);
+
 	}
-	
-	public List<CompraModel> toCollectionModel(List<Compra> compras){
-		return compras.stream().map(this::toModel)
-		.collect(Collectors.toList());
+
+	public List<CompraModel> toCollectionModel(List<Compra> compras) {
+		return compras.stream().map(this::toModel).collect(Collectors.toList());
 	}
 }

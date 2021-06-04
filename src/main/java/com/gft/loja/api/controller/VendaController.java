@@ -36,24 +36,22 @@ public class VendaController {
 	public List<VendaModel> listar() {
 		return vendaMapper.toCollectionModel(vendaService.listar());
 	}
-	
+
 	@GetMapping("/cliente/{clienteId}")
 	@PreAuthorize("hasAuthority('LOJA')")
 	public List<VendaModel> listar(@PathVariable Long clienteId) {
 		return vendaMapper.toCollectionModel(vendaService.listarComFiltroCliente(clienteId));
 	}
-	
+
 	@GetMapping("/status/{statusVenda}")
 	@PreAuthorize("hasAuthority('LOJA')")
 	public List<VendaModel> listar(@PathVariable String statusVenda) {
 		return vendaMapper.toCollectionModel(vendaService.listarComFiltroStatusVenda(statusVenda));
 	}
 
-
 	@GetMapping("/{vendaId}")
 	@PreAuthorize("hasAuthority('LOJA')")
 	public VendaModel buscar(@PathVariable Long vendaId) {
-
 		return vendaMapper.toModel(vendaService.buscar(vendaId));
 
 	}
@@ -70,7 +68,7 @@ public class VendaController {
 	@ResponseStatus(code = HttpStatus.OK)
 	public VendaModel atualizarStatus(@PathVariable Long vendaId) {
 		return vendaMapper.toModel(vendaService.atualizarStatusEntregaRecebido(vendaId));
-		
+
 	}
 
 }

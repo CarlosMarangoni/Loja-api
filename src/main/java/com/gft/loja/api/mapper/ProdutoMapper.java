@@ -15,15 +15,14 @@ public class ProdutoMapper {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	public ProdutoModel toModel(Produto produto) {
-		
-		return  modelMapper.map(produto, ProdutoModel.class);
-		
+
+		return modelMapper.map(produto, ProdutoModel.class);
+
 	}
-	
-	public List<ProdutoModel> toCollectionModel(List<Produto> produtos){
-		return produtos.stream().map(this::toModel)
-		.collect(Collectors.toList());
+
+	public List<ProdutoModel> toCollectionModel(List<Produto> produtos) {
+		return produtos.stream().map(this::toModel).collect(Collectors.toList());
 	}
 }

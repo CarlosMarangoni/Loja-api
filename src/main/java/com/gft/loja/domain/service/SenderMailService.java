@@ -1,6 +1,7 @@
 package com.gft.loja.domain.service;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -25,8 +26,11 @@ public class SenderMailService {
 	@Value("${spring.mail.username}")
 	private String emailFrom;
 	
+	
+	
 	@Async
 	public void enviar(Venda venda) {
+		DecimalFormat df = new DecimalFormat("#,##0.00");
 		String emailCliente = venda.getCliente().getEmail();
 		String mensagem = "";
 		BigDecimal total = BigDecimal.ZERO;
@@ -50,11 +54,11 @@ public class SenderMailService {
 		for(ItensVenda i : itensVenda) {
 			mensagem += "<tr><td>"+ i.getQuantidade() +"</td><td>" 
 		+ i.getItensVendaPK().getProduto().getDescricao()+"</td><td>" //Itens do recibo
-		+"R$ " + i.getValorVenda().divide(new BigDecimal(i.getQuantidade())) + "</td><td>"+"R$ " + i.getValorVenda() + "</td></tr>";
+		+"R$ " + df.format(i.getValorVenda().divide(new BigDecimal(i.getQuantidade()))) + "</td><td>"+"R$ " + df.format(i.getValorVenda()) + "</td></tr>";
 		total = total.add(i.getValorVenda());
 		}
 		
-		mensagem += "</tbody></table></div>" + "<span style='font-size:30px'>Total:" +"R$ " + total +"</span>";
+		mensagem += "</tbody></table></div>" + "<br>" + "<span style='font-size:30px'>Total:" +"R$ " + df.format(total) +"</span>";
 
 		helper.setText(mensagem,true);
 		helper.setFrom(emailFrom);

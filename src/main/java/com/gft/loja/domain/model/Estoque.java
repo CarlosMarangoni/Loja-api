@@ -81,7 +81,7 @@ public class Estoque {
 		}
 		this.quantidade -= quantidadeSubtracao;
 	}
-	
+
 	public BigDecimal calculaVenda(double quantidade) {
 		return this.valorVenda.multiply(new BigDecimal(quantidade));
 	}

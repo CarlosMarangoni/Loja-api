@@ -25,7 +25,6 @@ public class Produto {
 	@Enumerated(EnumType.STRING)
 	private UnidadeMedida unidadeMedida;
 
-
 	public Long getId() {
 		return id;
 	}

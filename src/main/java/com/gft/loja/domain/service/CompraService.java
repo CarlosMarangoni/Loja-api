@@ -27,7 +27,7 @@ public class CompraService {
 
 	@Autowired
 	private FornecedorService fornecedorService;
-	
+
 	@Autowired
 	private MovimentoRepository movimentoRepository;
 
@@ -49,17 +49,18 @@ public class CompraService {
 
 		try {
 			compra.getItens().forEach(c -> {
-				if (c.getItensCompraPK().getProduto() == null) {
+				if (c.getItensCompraPK().getProduto() == null) { //Se o produto não for passado no JSON
 					throw new ItemBodyViolationException(
 							"Código do produto inválido. Faça o preenchimento correto e tente novamente.");
 				}
 
-				Estoque estoque = estoqueService.buscar(c.getItensCompraPK().getProduto().getId());
+				Estoque estoque = estoqueService.buscar(c.getItensCompraPK().getProduto().getId()); //Busca o produto na tabela Estoque
 				c.getItensCompraPK().setProduto(estoque.getProduto());
-				estoque.somaQuantidadeProduto(c.getQuantidade());
+				estoque.somaQuantidadeProduto(c.getQuantidade()); 
 				c.getItensCompraPK().setCompra(compra);
-				c.setItem(atomicSum.incrementAndGet());
-				Movimento movimento = new Movimento(compra,c.getQuantidade(),c.getValorCompra(),(c.getValorCompra().multiply(c.getValorCompra())));
+				c.setItem(atomicSum.incrementAndGet());   // Incrementando itens
+				Movimento movimento = new Movimento(compra, c.getQuantidade(), c.getValorCompra(), //Gera um movimento de compra na tabela Movimento
+						(c.getValorCompra().multiply(c.getValorCompra())));
 				movimentoRepository.save(movimento);
 			});
 			compra.setFornecedor(fornecedorService.buscar(compra.getFornecedor().getId()));
@@ -68,8 +69,7 @@ public class CompraService {
 		} catch (NoSuchElementException e) {
 			throw new ItemBodyViolationException(e.getMessage());
 		}
-		
-		
+
 		return compraRepository.save(compra);
 	}
 

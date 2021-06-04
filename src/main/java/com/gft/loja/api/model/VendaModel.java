@@ -9,17 +9,17 @@ import com.gft.loja.domain.model.enumeration.StatusVenda;
 public class VendaModel {
 
 	private Long id;
-	
+
 	private StatusVenda statusVenda;
-	
+
 	private String emailCliente;
-	
+
 	private String nomeCliente;
-	
+
 	private OffsetDateTime dataVenda;
-	
+
 	private EnderecoResumoModel clienteEndereco;
-	
+
 	private List<ItensVenda> itensVenda;
 
 	public Long getId() {
@@ -78,7 +78,4 @@ public class VendaModel {
 		this.itensVenda = itensVenda;
 	}
 
-	
-	
-	
 }

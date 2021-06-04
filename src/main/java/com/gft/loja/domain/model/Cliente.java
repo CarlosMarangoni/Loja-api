@@ -6,25 +6,26 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 public class Cliente extends Usuario {
 
-
 	private static final long serialVersionUID = 1L;
 
 	@CPF
+	@NotNull
 	private String cpf;
 
 	@NotNull
+	@Size(min=0, max = 20)
 	private String telefone;
 
 	@Valid
 	@Embedded
 	private Endereco endereco;
-
 
 	public Cliente() {
 	}
@@ -60,7 +61,5 @@ public class Cliente extends Usuario {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-
-	
 
 }

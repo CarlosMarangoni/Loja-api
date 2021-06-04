@@ -51,8 +51,8 @@ public class UsuarioController {
 	@DeleteMapping("/{usuarioId}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	@PreAuthorize("hasAuthority('LOJA')")
-	public void excluir(@PathVariable Long usuarioId){
+	public void excluir(@PathVariable Long usuarioId) {
 		usuarioService.excluir(usuarioId);
 	}
-	
+
 }

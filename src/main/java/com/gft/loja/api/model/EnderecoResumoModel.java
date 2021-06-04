@@ -3,7 +3,7 @@ package com.gft.loja.api.model;
 public class EnderecoResumoModel {
 
 	private String logradouro;
-	
+
 	private String numero;
 
 	private String complemento;
@@ -71,6 +71,5 @@ public class EnderecoResumoModel {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
-	
-	
+
 }

@@ -12,7 +12,7 @@ import com.gft.loja.domain.model.Usuario;
 import com.gft.loja.domain.repository.UsuarioRepository;
 
 @Service
-public class AuthenticationService implements UserDetailsService{
+public class AuthenticationService implements UserDetailsService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;

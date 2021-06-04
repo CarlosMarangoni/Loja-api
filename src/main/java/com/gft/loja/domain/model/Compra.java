@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -24,19 +25,20 @@ public class Compra {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@JsonProperty(access = Access.READ_ONLY)
-    private OffsetDateTime dataCompra;
-	
+	private OffsetDateTime dataCompra;
+
 	@ManyToOne
-	private Fornecedor fornecedor;	
-	
+	private Fornecedor fornecedor;
+
 	@NotNull
+	@Size(min=0, max = 20)
 	private String notaFiscal;
-	
+
 	@Valid
 	@NotEmpty
-	@OneToMany(mappedBy = "itensCompraPK.compra",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "itensCompraPK.compra", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ItensCompra> itens = new LinkedList<>();
 
 	public Long getId() {
@@ -78,6 +80,5 @@ public class Compra {
 	public void setItens(List<ItensCompra> itens) {
 		this.itens = itens;
 	}
-	
-	
+
 }

@@ -21,28 +21,21 @@ public class ItensCompra {
 	@JsonIgnore
 	private Integer item;
 
-	@DecimalMin(value="0.01")
+	@DecimalMin(value = "0.01")
 	private double quantidade;
 
 	@NotNull
 	private BigDecimal valorCompra;
-	
-	
 
-	public ItensCompra(Compra compra, Produto produto, Integer item,double quantidade,
-			BigDecimal valorCompra) {
+	public ItensCompra(Compra compra, Produto produto, Integer item, double quantidade, BigDecimal valorCompra) {
 		itensCompraPK.setCompra(compra);
 		itensCompraPK.setProduto(produto);
 		this.quantidade = quantidade;
 		this.valorCompra = valorCompra;
 	}
-	
-	
 
 	public ItensCompra() {
 	}
-
-
 
 	public ItensCompraPK getItensCompraPK() {
 		return itensCompraPK;
@@ -76,8 +69,6 @@ public class ItensCompra {
 		this.valorCompra = valorCompra;
 	}
 
-
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -85,8 +76,6 @@ public class ItensCompra {
 		result = prime * result + ((itensCompraPK == null) ? 0 : itensCompraPK.hashCode());
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -105,5 +94,4 @@ public class ItensCompra {
 		return true;
 	}
 
-	
 }

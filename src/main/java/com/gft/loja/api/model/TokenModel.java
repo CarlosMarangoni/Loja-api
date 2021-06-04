@@ -8,7 +8,6 @@ public class TokenModel {
 	public TokenModel(String token, String tipo) {
 		this.token = token;
 		this.tipo = tipo;
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getToken() {
@@ -19,5 +18,4 @@ public class TokenModel {
 		return tipo;
 	}
 
-	
 }
